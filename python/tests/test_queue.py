@@ -32,9 +32,7 @@ def test_fifo_order():
     items = [10, 20, 30, 40]
     for item in items:
         q.enqueue(item)
-    result = []
-    while not q.is_empty():
-        result.append(q.dequeue())
+    result = [q.dequeue() for _ in range(len(items))]
     assert result == [10, 20, 30, 40]
 
 def test_dequeue_decreases_size():

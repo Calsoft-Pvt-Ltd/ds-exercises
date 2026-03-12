@@ -48,9 +48,7 @@ def test_lifo_order():
     items = [1, 2, 3, 4, 5]
     for item in items:
         s.push(item)
-    result = []
-    while not s.is_empty():
-        result.append(s.pop())
+    result = [s.pop() for _ in range(len(items))]
     assert result == [5, 4, 3, 2, 1]
 
 
