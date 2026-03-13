@@ -38,6 +38,13 @@ pytest tests/test_stack.py -v
 pytest tests/test_queue.py -v
 ```
 
+## Workflow
+
+1. Create a feature branch: `git checkout -b feature/<your-name>`
+2. Implement the methods marked with `# TODO: implement this`
+3. Run tests locally until all pass
+4. Push your branch: `git push -u origin feature/<your-name>`
+
 ## Files to Edit
 
 Only edit files inside `exercises/`. Do **not** modify anything in `tests/`.

@@ -26,6 +26,13 @@ mvn test -Dtest=StackTest
 mvn test -Dtest=QueueTest
 ```
 
+## Workflow
+
+1. Create a feature branch: `git checkout -b feature/<your-name>`
+2. Implement the methods marked with `// TODO: implement this`
+3. Run tests locally until all pass
+4. Push your branch: `git push -u origin feature/<your-name>`
+
 ## Files to Edit
 
 Only edit files inside `src/main/java/exercises/`. Do **not** modify anything in `src/test/`.
