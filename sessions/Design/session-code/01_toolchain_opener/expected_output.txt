@@ -1,0 +1,8 @@
+=============================================
+  STORAGE CAPACITY REPORT
+=============================================
+  Nodes scanned:      5
+  Total capacity:     650 TB
+  Average per node:   130.0 TB
+  Above 500 TB min:   YES
+=============================================
