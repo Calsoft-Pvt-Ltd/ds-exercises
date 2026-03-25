@@ -1,5 +1,8 @@
 package exercises;
 
+import java.util.EmptyStackException;
+import java.util.Stack;
+
 /**
  * Exercise 3: Stack (LIFO)
  * =========================
@@ -16,18 +19,19 @@ package exercises;
  */
 public class MyStack {
 
-    private final java.util.ArrayList<Object> items;
+    private final Stack<Object> items;
+    int size = 0;
 
     /** Initialize an empty stack. */
     public MyStack() {
-        // TODO: initialize items
-        throw new UnsupportedOperationException("Not implemented yet");
+        items = new Stack<>();
+        size = 0;
     }
 
     /** Add {@code value} to the top of the stack. */
     public void push(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        items.push(value);
+        size++;
     }
 
     /**
@@ -36,8 +40,11 @@ public class MyStack {
      * @throws java.util.EmptyStackException if the stack is empty
      */
     public Object pop() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if(items.isEmpty()){
+            throw new EmptyStackException ();
+        }
+        size--;
+        return items.pop();
     }
 
     /**
@@ -46,20 +53,18 @@ public class MyStack {
      * @throws java.util.EmptyStackException if the stack is empty
      */
     public Object peek() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if(items.isEmpty())  throw new EmptyStackException ();
+        return items.peek();
     }
 
     /** Return {@code true} if the stack has no elements. */
     public boolean isEmpty() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+      return items.isEmpty();
     }
 
     /** Return the number of elements in the stack. */
     public int size() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+       return size;
     }
 
     /**
@@ -86,7 +91,19 @@ public class MyStack {
      *   - At the end, the stack should be empty.
      */
     public static boolean isBalanced(String s) {
-        // TODO: implement this using MyStack
-        throw new UnsupportedOperationException("Not implemented yet");
+        Stack<Character> st = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            if(ch == '(' || ch == '[' || ch == '{') st.push(ch);
+            else if (ch == ')' || ch == ']' || ch == '}'){
+                if(st.isEmpty()) return false;
+                char open = st.pop();
+                if (ch == ')' && open != '(') return false;
+                if (ch == ']' && open != '[') return false;
+                if (ch == '}' && open != '{') return false;
+            }
+        }
+       return st.isEmpty();
     }
 }
