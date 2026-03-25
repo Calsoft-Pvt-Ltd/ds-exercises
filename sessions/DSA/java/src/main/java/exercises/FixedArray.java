@@ -1,5 +1,4 @@
 package exercises;
-
 /**
  * Exercise 1: Fixed-Size Array
  * =============================
@@ -25,7 +24,9 @@ public class FixedArray {
      */
     public FixedArray(int capacity) {
         // TODO: initialize this.data, this.capacity, and this.size
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.data = new Object[capacity];
+        this.capacity = capacity;
+        this.size = 0;
     }
 
     /**
@@ -41,8 +42,24 @@ public class FixedArray {
      * Think about: why is shifting O(n)? What does this mean for insert-heavy workloads?
      */
     public void insert(int index, Object value) {
+        // ArrayList<Object> ap= new ArrayList<>();
+        // for(int i=0;i<size;i++) {
+        //     if(index>0 && index<size) {
+        //         if(i==index) {
+        //             ap.add(value);
+        //         }
+        //         ap.add(data[i]);
+        //     }
+        // }
+        
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index > size) throw new IndexOutOfBoundsException();
+        if (size == capacity) throw new IllegalStateException();
+        for (int i = size; i > index; i--) {
+            data[i] = data[i - 1];
+        }
+        data[index] = value;
+        size++;
     }
 
     /**
@@ -54,7 +71,8 @@ public class FixedArray {
      */
     public Object get(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        return data[index];
     }
 
     /**
@@ -68,7 +86,11 @@ public class FixedArray {
      */
     public void delete(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        data[--size] = null;
     }
 
     /**
@@ -79,13 +101,16 @@ public class FixedArray {
      */
     public int find(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        for (int i = 0; i < size; i++) {
+            if (data[i]==value) return i;
+        }
+        return -1;
     }
 
     /** Return the number of occupied slots (not the capacity). */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
     }
 
     /**
@@ -100,7 +125,14 @@ public class FixedArray {
      */
     public void rotateRight(int k) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (size == 0) return;
+        k = k % size;
+        if (k == 0) return;
+        Object[] temp = new Object[size];
+        for (int i = 0; i < size; i++) {
+            temp[(i + k) % size] = data[i];
+        }
+        System.arraycopy(temp, 0, data, 0, size);
     }
 
     @Override
