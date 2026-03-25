@@ -17,12 +17,12 @@ class Stack:
     def __init__(self):
         """Initialize an empty stack."""
         # TODO: implement this
-        pass
+        self._data = []
 
     def push(self, value) -> None:
         """Add `value` to the top of the stack."""
         # TODO: implement this
-        pass
+        self._data.append(value)
 
     def pop(self):
         """
@@ -30,7 +30,9 @@ class Stack:
         Raise IndexError with the message "pop from empty stack" if empty.
         """
         # TODO: implement this
-        pass
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._data.pop()
 
     def peek(self):
         """
@@ -38,17 +40,19 @@ class Stack:
         Raise IndexError with the message "peek at empty stack" if empty.
         """
         # TODO: implement this
-        pass
+        if self.is_empty():
+            raise IndexError("peek at empty stack")
+        return self._data[-1]
 
     def is_empty(self) -> bool:
         """Return True if the stack has no elements."""
         # TODO: implement this
-        pass
+        return len(self._data) == 0
 
     def size(self) -> int:
         """Return the number of elements in the stack."""
         # TODO: implement this
-        pass
+        return len(self._data)
 
 
 def is_balanced(s: str) -> bool:
@@ -75,4 +79,12 @@ def is_balanced(s: str) -> bool:
       - At the end, the stack should be empty.
     """
     # TODO: implement this using the Stack class above
-    pass
+    stack = Stack()
+    matching = {')': '(', ']': '[', '}': '{'}
+    for ch in s:
+        if ch in '([{':
+            stack.push(ch)
+        elif ch in ')]}':
+            if stack.is_empty() or stack.pop() != matching[ch]:
+                return False
+    return stack.is_empty()
