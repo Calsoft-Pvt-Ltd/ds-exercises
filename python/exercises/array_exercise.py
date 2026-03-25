@@ -23,8 +23,9 @@ class FixedArray:
 
         This models contiguous memory allocation: the space is reserved upfront.
         """
-        # TODO: implement this
-        pass
+        self._capacity = capacity
+        self._data = [None] * capacity
+        self._size = 0
 
     def insert(self, index: int, value) -> None:
         """
@@ -39,8 +40,14 @@ class FixedArray:
 
         Think about: why is shifting O(n)? What does this mean for insert-heavy workloads?
         """
-        # TODO: implement this
-        pass
+        if index < 0 or index > self._size:
+            raise IndexError("Index out of bounds")
+        if self._size >= self._capacity:
+            raise OverflowError("Array is at full capacity")
+        for i in range(self._size, index, -1):
+            self._data[i] = self._data[i - 1]
+        self._data[index] = value
+        self._size += 1
 
     def get(self, index: int):
         """
@@ -50,8 +57,9 @@ class FixedArray:
 
         This is O(1) — the key advantage of arrays over linked lists.
         """
-        # TODO: implement this
-        pass
+        if index < 0 or index >= self._size:
+            raise IndexError("Index out of bounds")
+        return self._data[index]
 
     def delete(self, index: int) -> None:
         """
@@ -63,8 +71,12 @@ class FixedArray:
 
         Raise IndexError if `index` is out of bounds.
         """
-        # TODO: implement this
-        pass
+        if index < 0 or index >= self._size:
+            raise IndexError("Index out of bounds")
+        for i in range(index, self._size - 1):
+            self._data[i] = self._data[i + 1]
+        self._data[self._size - 1] = None
+        self._size -= 1
 
     def find(self, value) -> int:
         """
@@ -73,13 +85,14 @@ class FixedArray:
 
         This is O(n) — there is no shortcut without sorting.
         """
-        # TODO: implement this
-        pass
+        for i in range(self._size):
+            if self._data[i] == value:
+                return i
+        return -1
 
     def size(self) -> int:
         """Return the number of occupied slots (not the capacity)."""
-        # TODO: implement this
-        pass
+        return self._size
 
     def rotate_right(self, k: int) -> None:
         """
@@ -92,8 +105,21 @@ class FixedArray:
 
         Think about: what data structure property makes this an in-place operation?
         """
-        # TODO: implement this
-        pass
+        def reverse(start, end):
+            while start < end:
+                self._data[start], self._data[end] = self._data[end], self._data[start]
+                start += 1
+                end -= 1
+
+        if self._size == 0:
+            return
+        k = k % self._size
+      
+        reverse(0, self._size - 1)
+       
+        reverse(0, k - 1)
+      
+        reverse(k, self._size - 1)
 
     def __repr__(self) -> str:
         occupied = [self._data[i] for i in range(self._size)]
