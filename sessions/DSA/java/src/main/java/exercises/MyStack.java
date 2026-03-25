@@ -1,11 +1,12 @@
 package exercises;
-
+import java.util.ArrayList;
+import java.util.EmptyStackException;
 public class MyStack {
 
-    private final java.util.ArrayList<Object> items;
+    private final ArrayList<Object> items;
 
     public MyStack() {
-        items = new java.util.ArrayList<>();
+        items = new ArrayList<>();
     }
 
     public void push(Object value) {
@@ -13,12 +14,16 @@ public class MyStack {
     }
 
     public Object pop() {
-        if (items.isEmpty()) throw new java.util.EmptyStackException();
+        if (items.isEmpty()){
+             throw new EmptyStackException();
+        }
         return items.remove(items.size() - 1);
     }
 
     public Object peek() {
-        if (items.isEmpty()) throw new java.util.EmptyStackException();
+        if (items.isEmpty()) {
+            throw new EmptyStackException();
+        }
         return items.get(items.size() - 1);
     }
 

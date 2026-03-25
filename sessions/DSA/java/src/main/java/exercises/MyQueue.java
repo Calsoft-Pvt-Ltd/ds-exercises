@@ -31,7 +31,7 @@ public class MyQueue {
      */
     public MyQueue() {
         // TODO: initialize items
-        items = new ArrayDeque<>();
+        items=new ArrayDeque<>();
     }
 
     /** Add {@code value} to the BACK of the queue. */
@@ -126,9 +126,11 @@ public class MyQueue {
          */
         public List<String> processAll() {
             // TODO: implement this
-            List<String> batch = new ArrayList<>();
-            while (!queue.isEmpty()) batch.add(processNext());
-            return batch;
+            List<String> al = new ArrayList<>();
+            while (!queue.isEmpty()){
+                 al.add(processNext());
+            }
+            return al;
         }
 
         /** Return the number of tasks still waiting to be processed. */

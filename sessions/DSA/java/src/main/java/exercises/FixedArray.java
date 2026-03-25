@@ -24,9 +24,9 @@ public class FixedArray {
      */
     public FixedArray(int capacity) {
         // TODO: initialize this.data, this.capacity, and this.size
-        this.data = new Object[capacity];
-        this.capacity = capacity;
-        this.size = 0;
+        this.data= new Object[capacity];
+        this.capacity= capacity;
+        this.size=0;
     }
 
     /**
@@ -53,12 +53,16 @@ public class FixedArray {
         // }
         
         // TODO: implement this
-        if (index < 0 || index > size) throw new IndexOutOfBoundsException();
-        if (size == capacity) throw new IllegalStateException();
-        for (int i = size; i > index; i--) {
-            data[i] = data[i - 1];
+        if(index<0 || index>size) {
+            throw new ArrayIndexOutOfBoundsException();
         }
-        data[index] = value;
+        if(size==capacity) {
+            throw new IllegalStateException();
+        }
+        for(int i=size;i>index;i--) {
+            data[i]= data[i-1];
+        }
+        data[index]=value;
         size++;
     }
 
@@ -71,7 +75,9 @@ public class FixedArray {
      */
     public Object get(int index) {
         // TODO: implement this
-        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        if(index<0 || index>=size) {
+            throw new IndexOutOfBoundsException();
+        }
         return data[index];
     }
 
@@ -86,11 +92,18 @@ public class FixedArray {
      */
     public void delete(int index) {
         // TODO: implement this
-        if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
-        for (int i = index; i < size - 1; i++) {
-            data[i] = data[i + 1];
+        if(index<0 || index>=size) {
+            throw new IndexOutOfBoundsException();
         }
-        data[--size] = null;
+        for(int i=index;i<size-1;i++) {
+            data[i]=data[i+1];
+        }
+        data[--size]=null;
+        // if (index < 0 || index >= size) throw new IndexOutOfBoundsException();
+        // for (int i = index; i < size - 1; i++) {
+        //     data[i] = data[i + 1];
+        // }
+        // data[--size] = null;
     }
 
     /**
@@ -124,7 +137,7 @@ public class FixedArray {
      * Think about: what data structure property makes this an in-place operation?
      */
     public void rotateRight(int k) {
-        // TODO: implement this
+        // TODO: implement this 
         if (size == 0) return;
         k = k % size;
         if (k == 0) return;
@@ -137,10 +150,13 @@ public class FixedArray {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("FixedArray(capacity=" + capacity + ", elements=[");
+        StringBuilder sb = new StringBuilder();
+        sb.append("FixedArray(capacity=" + capacity + ", elements=[");
         for (int i = 0; i < size; i++) {
             sb.append(data[i]);
-            if (i < size - 1) sb.append(", ");
+            if (i < size - 1) {
+                sb.append(", ");
+            }
         }
         sb.append("])");
         return sb.toString();

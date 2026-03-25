@@ -50,14 +50,17 @@ public class MyLinkedList {
      */
     public void append(Object value) {
         // TODO: implement this
-        Node node = new Node(value);
-        if (head == null) { 
-            head = node; 
+
+        Node node= new Node(value);
+        if(head==null){
+            head=node;
         }
-        else { 
-            Node curr = head; 
-            while (curr.next != null) curr = curr.next;
-            curr.next = node;
+        else {
+            Node curr= head;
+            while(curr.next!=null) {
+                curr= curr.next;
+            }
+            curr.next=node;
         }
         size++;
     }
@@ -70,9 +73,9 @@ public class MyLinkedList {
      */
     public void prepend(Object value) {
         // TODO: implement this
-        Node node = new Node(value);
-        node.next = head;
-        head = node;
+        Node node= new Node(value);
+        node.next=head;
+        head=node;
         size++;
     }
 
@@ -90,15 +93,15 @@ public class MyLinkedList {
      */
     public boolean delete(Object value) {
         // TODO: implement this
-        if (head == null) return false;
-        if (head.value.equals(value)) {
-            head = head.next;
+        if(head==null) return false;
+        if(head.value==value) {
+            head=head.next;
             size--;
             return true;
         }
         Node curr = head;
         while (curr.next != null) {
-            if (curr.next.value.equals(value)) { 
+            if (curr.next.value==value) { 
                 curr.next = curr.next.next; 
                 size--; 
                 return true;
@@ -113,13 +116,19 @@ public class MyLinkedList {
      */
     public boolean find(Object value) {
         // TODO: implement this
-        Node curr = head;
-        while (curr != null) { 
-            if (curr.value.equals(value)) 
-                return true; 
-            curr = curr.next;
-         }
+        Node curr=head;
+        while(curr!=null) {
+            if(curr.value==value) return true;
+            curr=curr.next;
+        }
         return false;
+        // Node curr = head;
+        // while (curr != null) { 
+        //     if (curr.value.equals(value)) 
+        //         return true; 
+        //     curr = curr.next;
+        //  }
+        // return false;
     }
 
     /**
@@ -132,14 +141,14 @@ public class MyLinkedList {
      */
     public void reverse() {
         // TODO: implement this
-        Node prev = null, cur = head;
-        while (cur != null) {
-             Node next = cur.next; 
-             cur.next = prev; 
-             prev = cur; 
-             cur = next; 
-            }
-        head = prev;
+        Node curr= head, prev=null, nextt;
+        while(curr!=null) {
+            nextt=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=nextt;
+        }
+        head=prev;
     }
 
     /**
@@ -148,10 +157,13 @@ public class MyLinkedList {
      */
     public List<Object> toList() {
         // TODO: implement this
-        List<Object> list = new ArrayList<>();
-        Node cur = head;
-        while (cur != null) { list.add(cur.value); cur = cur.next; }
-        return list;
+        List<Object> ls= new ArrayList<>();
+        Node curr=head;
+        while(curr!=null) {
+            ls.add(curr.value);
+            curr=curr.next;
+        }
+        return ls;
     }
 
     /** Return the number of nodes in the list. */
@@ -162,13 +174,13 @@ public class MyLinkedList {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Node current = head;
-        while (current != null) {
-            sb.append(current.value).append(" -> ");
-            current = current.next;
+        StringBuilder sb= new StringBuilder();
+        Node curr= head;
+        while(curr!=null) {
+            sb.append(curr.value);
+            sb.append("->");
+            curr= curr.next;
         }
-        sb.append("null");
         return sb.toString();
     }
 }
