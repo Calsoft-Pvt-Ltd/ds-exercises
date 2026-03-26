@@ -1,5 +1,3 @@
-#if 0
-
 #include <gtest/gtest.h>
 #include "trie.h"
 
@@ -92,5 +90,3 @@ TEST(TrieTest, SearchEmptyStringOnEmptyTrie) {
     Trie t;
     EXPECT_FALSE(t.search(""));
 }
-
-#endif
