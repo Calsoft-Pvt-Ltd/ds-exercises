@@ -26,23 +26,40 @@ class BSTNode:
 
     Hint: the constructor should accept a value argument.
     """
-    # TODO: implement __init__
-    pass
+    def __init__(self, value: int):
+        self.value = value
+        self.left = None
+        self.right = None
 
 
 class BST:
     def __init__(self):
         """Initialize an empty BST with no nodes."""
-        # TODO: implement this
-        pass
+        self.root = None
 
     def insert(self, value: int) -> None:
         """
         Insert value into the BST, maintaining the BST property.
         If value already exists, do nothing (no duplicates).
         """
-        # TODO: implement this
-        pass
+        if self.root is None:
+            self.root = BSTNode(value)
+            return
+
+        node = self.root
+        while True:
+            if value < node.value:
+                if node.left is None:
+                    node.left = BSTNode(value)
+                    return
+                node = node.left
+            elif value > node.value:
+                if node.right is None:
+                    node.right = BSTNode(value)
+                    return
+                node = node.right
+            else:
+                return
 
     def search(self, value: int) -> bool:
         """
@@ -51,8 +68,15 @@ class BST:
         Think about: at each node, how does the BST property let you
         discard half the remaining tree rather than scanning every node?
         """
-        # TODO: implement this
-        pass
+        node = self.root
+        while node is not None:
+            if value < node.value:
+                node = node.left
+            elif value > node.value:
+                node = node.right
+            else:
+                return True
+        return False
 
     def remove(self, value: int) -> bool:
         """
@@ -67,13 +91,43 @@ class BST:
 
         Think about: why does the in-order successor preserve the BST property?
         """
-        # TODO: implement this
-        pass
+        def _remove(node, value):
+            if node is None:
+                return None, False
+            if value < node.value:
+                node.left, removed = _remove(node.left, value)
+                return node, removed
+            if value > node.value:
+                node.right, removed = _remove(node.right, value)
+                return node, removed
+            # value == node.value
+            if node.left is None:
+                return node.right, True
+            if node.right is None:
+                return node.left, True
+            successor = node.right
+            while successor.left is not None:
+                successor = successor.left
+            node.value = successor.value
+            node.right, _ = _remove(node.right, successor.value)
+            return node, True
+
+        self.root, removed = _remove(self.root, value)
+        return removed
 
     def inorder(self) -> list:
         """
         Return a list of all values in ascending (sorted) order.
         In-order traversal visits: left subtree → current node → right subtree.
         """
-        # TODO: implement this
-        pass
+        result = []
+
+        def _traverse(node):
+            if node is None:
+                return
+            _traverse(node.left)
+            result.append(node.value)
+            _traverse(node.right)
+
+        _traverse(self.root)
+        return result
