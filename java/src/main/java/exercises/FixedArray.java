@@ -25,7 +25,9 @@ public class FixedArray {
      */
     public FixedArray(int capacity) {
         // TODO: initialize this.data, this.capacity, and this.size
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.capacity = capacity;
+        this.data = new Object[capacity];
+        this.size = 0;
     }
 
     /**
@@ -42,7 +44,21 @@ public class FixedArray {
      */
     public void insert(int index, Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (size == capacity) {
+            throw new IllegalStateException("Array is full");
+        }
+
+        // Shift right
+        for (int i = size - 1; i >= index; i--) {
+            data[i + 1] = data[i];
+        }
+
+        data[index] = value;
+        size++;
     }
 
     /**
@@ -54,7 +70,11 @@ public class FixedArray {
      */
     public Object get(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        return data[index];
     }
 
     /**
@@ -68,7 +88,17 @@ public class FixedArray {
      */
     public void delete(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        // Shift left
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+
+        data[size - 1] = null; // clean up
+        size--;
     }
 
     /**
@@ -78,14 +108,20 @@ public class FixedArray {
      * This is O(n) — there is no shortcut without sorting.
      */
     public int find(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+    for (int i = 0; i < size; i++) {
+        if (value == null) {
+            if (data[i] == null) return i;
+        } else {
+            if (value.equals(data[i])) return i;
+        }
+    }
+    return -1;
     }
 
     /** Return the number of occupied slots (not the capacity). */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
     }
 
     /**
@@ -98,9 +134,25 @@ public class FixedArray {
      *
      * Think about: what data structure property makes this an in-place operation?
      */
+
+    private void reverse(int start, int end) {
+    while (start < end) {
+        Object temp = data[start];
+        data[start] = data[end];
+        data[end] = temp;
+        start++;
+        end--;
+    }
+    }
     public void rotateRight(int k) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (size == 0) return;
+
+        k = k % size; // handle large k
+
+        reverse(0, size - 1);
+        reverse(0, k - 1);
+        reverse(k, size - 1);
     }
 
     @Override
