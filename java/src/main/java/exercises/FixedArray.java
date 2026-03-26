@@ -1,5 +1,7 @@
 package exercises;
 
+import java.util.Objects;
+
 /**
  * Exercise 1: Fixed-Size Array
  * =============================
@@ -13,7 +15,6 @@ package exercises;
  * Your task: implement all methods marked with TODO.
  */
 public class FixedArray {
-
     private final Object[] data;
     private final int capacity;
     private int size;
@@ -23,10 +24,14 @@ public class FixedArray {
      * The underlying array is pre-allocated — this models contiguous
      * memory allocation where the space is reserved upfront.
      */
-    public FixedArray(int capacity) {
-        // TODO: initialize this.data, this.capacity, and this.size
-        throw new UnsupportedOperationException("Not implemented yet");
+   public FixedArray(int capacity) {
+    if (capacity < 0) {
+        throw new IllegalArgumentException("Capacity must be >= 0");
     }
+    this.capacity = capacity;
+    this.data = new Object[capacity];
+    this.size = 0;
+}
 
     /**
      * Insert {@code value} at position {@code index}.
@@ -42,7 +47,22 @@ public class FixedArray {
      */
     public void insert(int index, Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (size == capacity) {
+            throw new IllegalStateException("Array is full");
+        }
+
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        // shift right
+        for (int i = size; i > index; i--) {
+            data[i] = data[i - 1];
+        }
+
+        data[index] = value;
+        size++;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -54,7 +74,12 @@ public class FixedArray {
      */
     public Object get(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+         if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        return data[index];
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -68,7 +93,17 @@ public class FixedArray {
      */
     public void delete(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+         if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+
+        data[size - 1] = null;
+        size--;
+
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -79,13 +114,20 @@ public class FixedArray {
      */
     public int find(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+          for (int i = 0; i < size; i++) {
+            if (Objects.equals(data[i], value)) {
+                return i;
+            }
+        }
+        return -1;
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /** Return the number of occupied slots (not the capacity). */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -100,8 +142,26 @@ public class FixedArray {
      */
     public void rotateRight(int k) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+         if (size == 0) return;
+
+        k = k % size;
+        if (k == 0) return;
+
+        reverse(0, size - 1);
+        reverse(0, k - 1);
+        reverse(k, size - 1);
+        // throw new UnsupportedOperationException("Not implemented yet");
     }
+        private void reverse(int start, int end) {
+        while (start < end) {
+            Object temp = data[start];
+            data[start] = data[end];
+            data[end] = temp;
+            start++;
+            end--;
+        }
+    }
+    
 
     @Override
     public String toString() {
