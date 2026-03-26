@@ -36,5 +36,7 @@ add_executable(run_tests
   tests/test_bst.cpp
 )
 target_link_libraries(run_tests exercises GTest::gtest_main)
-include(GoogleTest)
-gtest_discover_tests(run_tests)
+# include(GoogleTest)
+# gtest_discover_tests(run_tests)
+
+add_test(NAME run_tests COMMAND $<TARGET_FILE:run_tests>)
