@@ -25,8 +25,9 @@ class TrieNode:
       - is_end_of_word: bool — True if an inserted word ends at this node.
                         Default: False
     """
-    # TODO: implement __init__
-    pass
+    def __init__(self):
+        self.children = {}
+        self.is_end_of_word = False
 
 
 class Trie:
@@ -35,8 +36,7 @@ class Trie:
         Initialize the trie with an empty root TrieNode.
         The root does not represent any character.
         """
-        # TODO: implement this
-        pass
+        self.root = TrieNode()
 
     def insert(self, word: str) -> None:
         """
@@ -46,8 +46,12 @@ class Trie:
         After processing all characters, mark the final node's
         is_end_of_word = True.
         """
-        # TODO: implement this
-        pass
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.is_end_of_word = True
 
     def search(self, word: str) -> bool:
         """
@@ -59,8 +63,12 @@ class Trie:
         Think about: why is is_end_of_word necessary? What goes wrong if
         you just check whether the last node exists?
         """
-        # TODO: implement this
-        pass
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return node.is_end_of_word
 
     def starts_with(self, prefix: str) -> bool:
         """
@@ -70,5 +78,9 @@ class Trie:
         child doesn't exist, return False. If you reach the end of the prefix
         without getting stuck, return True — is_end_of_word doesn't matter here.
         """
-        # TODO: implement this
-        pass
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return True
