@@ -108,3 +108,4 @@ TEST(BSTTest, RemoveReinsert) {
     EXPECT_TRUE(bst.search(3));
     EXPECT_EQ(bst.inorder(), (std::vector<int>{3, 5, 7}));
 }
+

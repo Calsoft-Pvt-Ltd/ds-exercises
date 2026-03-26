@@ -8,7 +8,7 @@ TEST(FixedArrayTest, InitialSizeIsZero) {
     EXPECT_EQ(arr.size(), 0);
 }
 
-// --- Insert ---
+// --- Insert ---mingw
 
 TEST(FixedArrayTest, InsertSingleElement) {
     FixedArray arr(5);
