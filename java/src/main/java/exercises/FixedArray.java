@@ -24,8 +24,9 @@ public class FixedArray {
      * memory allocation where the space is reserved upfront.
      */
     public FixedArray(int capacity) {
-        // TODO: initialize this.data, this.capacity, and this.size
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.capacity = capacity;
+        this.data = new Object[capacity];
+        this.size = 0;
     }
 
     /**
@@ -41,8 +42,19 @@ public class FixedArray {
      * Think about: why is shifting O(n)? What does this mean for insert-heavy workloads?
      */
     public void insert(int index, Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (size == capacity) {
+            throw new IllegalStateException("Array is at full capacity");
+        }
+
+        for (int i = size - 1; i >= index; i--) {
+            data[i + 1] = data[i];
+        }
+
+        data[index] = value;
+        size++;
     }
 
     /**
@@ -53,8 +65,10 @@ public class FixedArray {
      * This is O(1) — the key advantage of arrays over linked lists.
      */
     public Object get(int index) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        return data[index];
     }
 
     /**
@@ -67,8 +81,16 @@ public class FixedArray {
      * @throws IndexOutOfBoundsException if index < 0 or index >= current size
      */
     public void delete(int index) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+
+        data[size - 1] = null;
+        size--;
     }
 
     /**
@@ -78,14 +100,17 @@ public class FixedArray {
      * This is O(n) — there is no shortcut without sorting.
      */
     public int find(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        for (int i = 0; i < size; i++) {
+            if (value == null ? data[i] == null : value.equals(data[i])) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /** Return the number of occupied slots (not the capacity). */
     public int size() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
     }
 
     /**
@@ -99,8 +124,24 @@ public class FixedArray {
      * Think about: what data structure property makes this an in-place operation?
      */
     public void rotateRight(int k) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (size == 0) return;
+
+        k = k % size;
+        if (k == 0) return;
+
+        reverse(0, size - 1);
+        reverse(0, k - 1);
+        reverse(k, size - 1);
+    }
+
+    private void reverse(int left, int right) {
+        while (left < right) {
+            Object temp = data[left];
+            data[left] = data[right];
+            data[right] = temp;
+            left++;
+            right--;
+        }
     }
 
     @Override
@@ -112,5 +153,26 @@ public class FixedArray {
         }
         sb.append("])");
         return sb.toString();
+    }
+
+    // ✅ Main method added ONLY for manual testing / demo
+    public static void main(String[] args) {
+        FixedArray arr = new FixedArray(5);
+
+        arr.insert(0, 1);
+        arr.insert(1, 2);
+        arr.insert(2, 3);
+        arr.insert(1, 99);
+
+        System.out.println(arr);
+
+        arr.delete(2);
+        System.out.println("After delete: " + arr);
+
+        arr.rotateRight(1);
+        System.out.println("After rotateRight(1): " + arr);
+
+        System.out.println("Index of 99: " + arr.find(99));
+        System.out.println("Current size: " + arr.size());
     }
 }
