@@ -31,13 +31,13 @@ public class MyQueue {
      */
     public MyQueue() {
         // TODO: initialize items
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.items = new ArrayDeque<>();
     }
 
     /** Add {@code value} to the BACK of the queue. */
     public void enqueue(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        items.addLast(value);
     }
 
     /**
@@ -46,8 +46,8 @@ public class MyQueue {
      * @throws java.util.NoSuchElementException if the queue is empty
      */
     public Object dequeue() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+    // TODO: implement this
+       return items.removeFirst();
     }
 
     /**
@@ -56,20 +56,20 @@ public class MyQueue {
      * @throws java.util.NoSuchElementException if the queue is empty
      */
     public Object peek() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+    // TODO: implement this
+       return items.getFirst();
     }
 
     /** Return {@code true} if the queue has no elements. */
     public boolean isEmpty() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return items.isEmpty();
     }
 
     /** Return the number of elements in the queue. */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return items.size();
     }
 
     // -------------------------------------------------------------------------
@@ -100,7 +100,7 @@ public class MyQueue {
          */
         public void submitTask(String task) {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            queue.enqueue(task);
         }
 
         /**
@@ -114,7 +114,9 @@ public class MyQueue {
          */
         public String processNext() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            String task = (String) queue.dequeue();
+            processed.add(task);
+            return task;
         }
 
         /**
@@ -124,13 +126,21 @@ public class MyQueue {
          */
         public List<String> processAll() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            List<String> result = new ArrayList<>();
+
+            while (!queue.isEmpty()) {
+                String task = (String) queue.dequeue();
+                processed.add(task);
+                result.add(task);
+            }
+
+            return result;
         }
 
         /** Return the number of tasks still waiting to be processed. */
         public int pendingCount() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            return queue.size();
         }
 
         /** Return all tasks that have been processed so far, in order. */

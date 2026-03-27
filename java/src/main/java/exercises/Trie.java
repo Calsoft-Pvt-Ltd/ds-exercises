@@ -21,20 +21,16 @@ import java.util.Map;
  */
 public class Trie {
 
-    /**
-     * A single node in the trie.
-     *
-     * You need to implement this class. A TrieNode needs:
-     *   - children: Map&lt;Character, TrieNode&gt; — maps each character to its
-     *               child node. Initialize as a new HashMap.
-     *   - isEndOfWord: boolean — true if an inserted word ends at this node.
-     *                  Default: false
-     *
-     * Hint: write a no-arg constructor that initializes both fields.
-     */
     public static class TrieNode {
         // TODO: declare fields (Map<Character, TrieNode> children, boolean isEndOfWord)
+        Map<Character, TrieNode> children;
+        boolean isEndOfWord;
+
         // TODO: implement constructor
+        public TrieNode() {
+            children = new HashMap<>();
+            isEndOfWord = false;
+        }
     }
 
     private TrieNode root;
@@ -45,7 +41,7 @@ public class Trie {
      */
     public Trie() {
         // TODO: initialize root
-        throw new UnsupportedOperationException("Not implemented yet");
+        root = new TrieNode();
     }
 
     /**
@@ -56,7 +52,14 @@ public class Trie {
      */
     public void insert(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+
+        for (char c : word.toCharArray()) {
+            current.children.putIfAbsent(c, new TrieNode());
+            current = current.children.get(c);
+        }
+
+        current.isEndOfWord = true;
     }
 
     /**
@@ -64,13 +67,19 @@ public class Trie {
      *
      * Walk from root following each character. If a character's child doesn't
      * exist, return false. At the end, return isEndOfWord of the final node.
-     *
-     * Think about: why is isEndOfWord necessary? What goes wrong if you just
-     * check whether the last node exists?
      */
     public boolean search(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+
+        for (char c : word.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                return false;
+            }
+            current = current.children.get(c);
+        }
+
+        return current.isEndOfWord;
     }
 
     /**
@@ -82,6 +91,15 @@ public class Trie {
      */
     public boolean startsWith(String prefix) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+
+        for (char c : prefix.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                return false;
+            }
+            current = current.children.get(c);
+        }
+
+        return true;
     }
 }
