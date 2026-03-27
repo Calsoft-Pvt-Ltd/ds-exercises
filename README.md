@@ -1,134 +1,58 @@
-# Calsoft Engineering Internship 2026 — Session Code Repository
+# Data Structures Exercise
 
-This repository contains code samples, starter files, exercises and
-problem statements for the Calsoft Engineering Internship Program 2026.
+Welcome! This exercise covers the core data structures from class: **Arrays, Linked Lists, Stacks, and Queues**.
 
----
+## Getting Started
 
-## Repository Structure
-
-```
-Interns_Training_2026/
-├── sessions/
-│   ├── Programming-Logic/
-│   ├── Design/
-│   ├── DSA/
-│   ├── Domain/
-│   │   ├── cloud/
-│   │   ├── dataprotection/
-│   │   ├── devops/
-│   │   ├── networking/
-│   │   ├── quality-engineering/
-│   │   ├── security/
-│   │   ├── storage/
-│   │   ├── Telco/
-│   │   └── virtualization/
-│   ├── Capstone/
-│   └── Hackathon/
-└── README.md
+### 1. Clone the repo
+```bash
+git clone <repo-url>
+cd ds-exercises
 ```
 
----
-
-## For Interns
-
-### Step 1 — Fork this repository
-- Click **Fork** at the top right of this page
-- This creates your own personal copy of the repo under your GitHub account
-
-### Step 2 — Clone your fork locally
-```
-git clone https://github.com/<your-username>/Interns_Training_2026.git
-cd Interns_Training_2026
+### 2. Create your branch
+```bash
+git checkout -b feature/<your-name>
+# Example: git checkout -b feature/jane-smith
 ```
 
-### Step 3 — Connect to the main repo
-Run this once after cloning:
-```
-git remote add upstream https://github.com/Calsoft-Pvt-Ltd/Interns_Training_2026.git
-```
+### 3. Pick your language
 
-### Step 4 — Pull session files before every session
-At the start of each session, run:
-```
-git fetch upstream
-git merge upstream/main
-```
-This pulls the latest session files the trainer has just pushed.
+| Language | Directory | Requirements |
+|----------|-----------|--------------|
+| Python   | `python/` | Python 3.8+, pytest |
+| Java     | `java/`   | Java 11+, Maven 3.6+ |
 
-### Step 5 — Do your work
-Work inside the relevant session folder. Do not modify files outside your session folder.
+See the README in your chosen language's directory for setup instructions.
 
-### Step 6 — Submit your work via Pull Request
-```
+### 4. Complete the exercises
+
+Each exercise file has `TODO` comments marking exactly what you need to implement. Do not modify the test files.
+
+**Exercises (do all four):**
+- `array_exercise` — Fixed-size array with bounds checking and rotation
+- `linked_list_exercise` — Singly linked list with insert, delete, and reverse
+- `stack_exercise` — Stack with a real-world balanced-brackets challenge
+- `queue_exercise` — Queue with a task processor simulation
+
+### 5. Run the tests locally
+
+Make sure your tests pass before pushing. See your language README for the test command.
+
+### 6. Commit and push
+
+```bash
 git add .
-git commit -m "s01-programming-logic — <your-name> submission"
-git push origin main
+git commit -m "Complete data structures exercises"
+git push origin feature/<your-name>
 ```
-Then go to your fork on GitHub → click **Contribute** → **Open Pull Request** → add your name in the title → Submit.
 
-### Commit message format
-```
-<session-folder> — <your-name> — <brief description>
-```
-Example:
-```
-s03-DSA — Rehan Farooque — binary search implementation
-```
+### 7. Open a Pull Request
+
+Open a PR from your branch to `main`. Title it: `[Exercise] <Your Name>`.
 
 ---
 
-## For Trainers
+## Grading
 
-### Push rule
-Push your session files **on the morning of your session. Not before.**
-Interns pull at the start of the session — anything pushed early is visible early.
-
-### Where to push
-Push only inside your designated session folder. Do not push to other session folders. <trainer names are listed only for reference>
-
-| Session Folder                      | Topic                          | Trainer        |
-| ----------------------------------- | ------------------------------ | -------------- |
-| sessions/Programming-Logic          | Programming Logic              | Ram            |
-| sessions/Design                     | Software Design                | Amit           |
-| sessions/DSA                        | Data Structures and Algorithms | Ashwin Bhide   |
-| sessions/Domain/storage             | Storage                        | Akshay         |
-| sessions/Domain/virtualization      | Virtualization                 | [Satybhan      |
-| sessions/Domain/cloud               | Cloud                          | Rajshekhar     |
-| sessions/Domain/networking          | Networking                     | Surendra       |
-| sessions/Domain/devops              | DevOps                         | Brajesh        |
-| sessions/Domain/security            | Security                       | Suresh Patidar |
-| sessions/Domain/quality-engineering | Quality Engineering            | Sujit          |
-| sessions/Domain/dataprotection      | Data Protection                | Helina         |
-| sessions/Domain/Telco               | Telco                          | Surendra       |
-| sessions/Capstone                   | Capstone Project               | [Trainer Name] |
-| sessions/Hackathon                  | Hackathon                      | [Trainer Name] |
-
-### How to push your session files
-```
-git add sessions/<your-session-folder>/
-git commit -m "<session-folder> — session files added"
-git push origin main
-```
-
-### Reviewing intern submissions
-- Go to the **Pull Requests** tab on the main repo
-- Open the intern's PR
-- Review the code and leave inline comments
-- Request changes or Approve
-- Do not merge — submissions are for review only
-
----
-
-## Rules
-
-- Interns do not push directly to this repository
-- All intern submissions come in via Pull Requests only
-- Trainers push only to their own session folder
-- Problem statements and answer keys are on SharePoint — not in this repository
-
----
-
-*Calsoft Confidential — Internal use only*
-```
-
+Each exercise is worth 25 points (100 total). Points are awarded per passing test. See `TESTING_PLAN.md` for the full breakdown (instructor-facing).
