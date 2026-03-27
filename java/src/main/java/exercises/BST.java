@@ -33,7 +33,16 @@ public class BST {
      */
     public static class BSTNode {
         // TODO: declare fields (int value, BSTNode left, BSTNode right)
+        int value;
+        BSTNode left;
+        BSTNode right;
+
         // TODO: implement constructor
+        public BSTNode(int value) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+        }
     }
 
     private BSTNode root;
@@ -44,7 +53,7 @@ public class BST {
      */
     public BST() {
         // TODO: initialize root to null
-        throw new UnsupportedOperationException("Not implemented yet");
+        root = null;
     }
 
     /**
@@ -53,7 +62,19 @@ public class BST {
      */
     public void insert(int value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        root = insertRec(root, value);
+    }
+
+    private BSTNode insertRec(BSTNode node, int value) {
+        if (node == null) return new BSTNode(value);
+
+        if (value < node.value) {
+            node.left = insertRec(node.left, value);
+        } else if (value > node.value) {
+            node.right = insertRec(node.right, value);
+        }
+
+        return node;
     }
 
     /**
@@ -64,7 +85,15 @@ public class BST {
      */
     public boolean search(int value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        BSTNode current = root;
+
+        while (current != null) {
+            if (value == current.value) return true;
+            if (value < current.value) current = current.left;
+            else current = current.right;
+        }
+
+        return false;
     }
 
     /**
@@ -81,7 +110,38 @@ public class BST {
      */
     public boolean remove(int value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!search(value)) return false;
+        root = removeRec(root, value);
+        return true;
+    }
+
+    private BSTNode removeRec(BSTNode node, int value) {
+        if (node == null) return null;
+
+        if (value < node.value) {
+            node.left = removeRec(node.left, value);
+        } else if (value > node.value) {
+            node.right = removeRec(node.right, value);
+        } else {
+
+            // Case 1: No children
+            if (node.left == null && node.right == null) return null;
+
+            // Case 2: One child
+            if (node.left == null) return node.right;
+            if (node.right == null) return node.left;
+
+            // Case 3: Two children
+            BSTNode successor = node.right;
+            while (successor.left != null) {
+                successor = successor.left;
+            }
+
+            node.value = successor.value;
+            node.right = removeRec(node.right, successor.value);
+        }
+
+        return node;
     }
 
     /**
@@ -90,6 +150,16 @@ public class BST {
      */
     public List<Integer> inorder() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<Integer> result = new ArrayList<>();
+        inorderRec(root, result);
+        return result;
+    }
+
+    private void inorderRec(BSTNode node, List<Integer> result) {
+        if (node == null) return;
+
+        inorderRec(node.left, result);
+        result.add(node.value);
+        inorderRec(node.right, result);
     }
 }
