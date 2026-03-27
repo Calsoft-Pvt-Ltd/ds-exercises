@@ -1,4 +1,6 @@
 #include "trie.h"
+#include <unordered_map>
+#include <string>
 
 // ─── TrieNode ──────────────────────────────────────────────────────────────
 //
@@ -17,6 +19,7 @@ struct Trie::TrieNode {
     std::unordered_map<char, TrieNode*> children;
     bool isEndOfWord;
     // TODO: implement constructor
+    TrieNode() : isEndOfWord(false) {}
 };
 
 
@@ -41,7 +44,7 @@ Trie::Trie() {
     // TODO: implement this
     // Initialize root_ to a freshly allocated TrieNode.
     // root_ = new TrieNode();
-    root_ = nullptr; // placeholder — replace with the line above
+    root_ = new TrieNode(); // fixed
     //
     // Note: body assignment (not an initializer list) is used here because
     // TrieNode is an incomplete type at the point of Trie's declaration.
@@ -55,6 +58,14 @@ void Trie::insert(const std::string& word) {
     // TODO: implement this
     // Walk from root_, creating TrieNodes as needed for each character.
     // After all characters, set the final node's isEndOfWord = true.
+    TrieNode* current = root_;
+    for (char c : word) {
+        if (current->children.find(c) == current->children.end()) {
+            current->children[c] = new TrieNode();
+        }
+        current = current->children[c];
+    }
+    current->isEndOfWord = true;
 }
 
 
@@ -64,7 +75,14 @@ bool Trie::search(const std::string& word) const {
     // TODO: implement this
     // Walk from root_ following each character. If a child doesn't exist,
     // return false. At the end, return the node's isEndOfWord.
-    return false; // placeholder
+    TrieNode* current = root_;
+    for (char c : word) {
+        if (current->children.find(c) == current->children.end()) {
+            return false;
+        }
+        current = current->children.at(c);
+    }
+    return current->isEndOfWord;
 }
 
 
@@ -74,5 +92,12 @@ bool Trie::startsWith(const std::string& prefix) const {
     // TODO: implement this
     // Walk from root_ following each character of prefix. If a child doesn't
     // exist, return false. If you reach the end of prefix, return true.
-    return false; // placeholder
+    TrieNode* current = root_;
+    for (char c : prefix) {
+        if (current->children.find(c) == current->children.end()) {
+            return false;
+        }
+        current = current->children.at(c);
+    }
+    return true;
 }

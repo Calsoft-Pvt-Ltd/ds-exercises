@@ -47,7 +47,7 @@ public:
     BST(const BST&) = delete;
     BST& operator=(const BST&) = delete;
 
-private:
+public:
     struct BSTNode;  // implemented in bst.cpp — see the TODO there
     BSTNode* root_;
     static void destroyNode(BSTNode* node);

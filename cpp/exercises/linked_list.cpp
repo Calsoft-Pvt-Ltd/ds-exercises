@@ -15,26 +15,72 @@ LinkedList::~LinkedList() {
 void LinkedList::append(int value) {
     // TODO: implement this
     // 1. Create a new Node with value
+    Node* new_node = new Node(value);
+
     // 2. If head_ is nullptr, set head_ = new node, increment size_, and return
+    if (!head_) {
+        head_ = new_node;
+        size_++;
+        return;
+    }
+
     // 3. Otherwise traverse to the last node (node->next == nullptr)
+    Node* current = head_;
+    while (current->next) {
+        current = current->next;
+    }
+
     // 4. Set last->next = new node
+    current->next = new_node;
+
     // 5. Increment size_
+    size_++;
 }
 
 void LinkedList::prepend(int value) {
     // TODO: implement this
     // 1. Create a new Node with value
+    Node* new_node = new Node(value);
+
     // 2. Set new_node->next = head_
+    new_node->next = head_;
+
     // 3. Set head_ = new_node
+    head_ = new_node;
+
     // 4. Increment size_
+    size_++;
 }
 
 bool LinkedList::deleteValue(int value) {
     // TODO: implement this
     // Special case: if head_ is not nullptr and head_->value == value,
     //   set head_ = head_->next, delete old head, decrement size_, return true
+    if (head_ && head_->value == value) {
+        Node* temp = head_;
+        head_ = head_->next;
+        delete temp;
+        size_--;
+        return true;
+    }
+
     // General case: traverse with a `prev` pointer while current != nullptr and current->value != value
+    Node* prev = nullptr;
+    Node* current = head_;
+
+    while (current && current->value != value) {
+        prev = current;
+        current = current->next;
+    }
+
     //   When found: rewire prev->next = current->next, delete current, decrement size_, return true
+    if (current) {
+        prev->next = current->next;
+        delete current;
+        size_--;
+        return true;
+    }
+
     // If current reaches nullptr without a match, return false
     return false; // placeholder
 }
@@ -42,6 +88,15 @@ bool LinkedList::deleteValue(int value) {
 bool LinkedList::find(int value) const {
     // TODO: implement this
     // Traverse from head_; return true if any node's value equals the target
+    Node* current = head_;
+
+    while (current) {
+        if (current->value == value) {
+            return true;
+        }
+        current = current->next;
+    }
+
     return false; // placeholder
 }
 
@@ -50,6 +105,18 @@ void LinkedList::reverse() {
     // Use three pointers: prev (starts nullptr), current (starts head_), next
     // Each iteration: save current->next, point current->next = prev, advance prev and current
     // When current is nullptr, set head_ = prev
+
+    Node* prev = nullptr;
+    Node* current = head_;
+
+    while (current) {
+        Node* next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+
+    head_ = prev;
 }
 
 std::vector<int> LinkedList::toVector() const {
