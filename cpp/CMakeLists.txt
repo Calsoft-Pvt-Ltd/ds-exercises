@@ -21,6 +21,8 @@ add_library(exercises
   exercises/linked_list.cpp
   exercises/stack.cpp
   exercises/queue.cpp
+  exercises/trie.cpp
+  exercises/bst.cpp
 )
 target_include_directories(exercises PUBLIC exercises)
 
@@ -30,6 +32,8 @@ add_executable(run_tests
   tests/test_linked_list.cpp
   tests/test_stack.cpp
   tests/test_queue.cpp
+  tests/test_trie.cpp
+  tests/test_bst.cpp
 )
 target_link_libraries(run_tests exercises GTest::gtest_main)
 include(GoogleTest)
