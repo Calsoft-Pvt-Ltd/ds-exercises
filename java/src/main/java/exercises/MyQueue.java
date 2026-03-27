@@ -3,9 +3,10 @@ package exercises;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
- * Exercise 4: Queue (FIFO) + Task Processor
+ * Exercise 4: Queue (FIFO) + Task Proceor
  * ===========================================
  * A queue is a First-In, First-Out (FIFO) structure. The first element
  * enqueued is the first element dequeued. Think of a line at a coffee shop.
@@ -31,13 +32,15 @@ public class MyQueue {
      */
     public MyQueue() {
         // TODO: initialize items
-        throw new UnsupportedOperationException("Not implemented yet");
+        items = new ArrayDeque<>();
+        //throw new mvn clean test -Dtest=QueueTest("Not implemented yet");
     }
 
     /** Add {@code value} to the BACK of the queue. */
     public void enqueue(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+       items.addLast(value);
+      //  throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -47,7 +50,11 @@ public class MyQueue {
      */
     public Object dequeue() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (items.isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return items.pollFirst();
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -57,19 +64,25 @@ public class MyQueue {
      */
     public Object peek() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (items.isEmpty()) {
+            throw new NoSuchElementException("Queue is empty");
+        }
+        return items.peekFirst();
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /** Return {@code true} if the queue has no elements. */
     public boolean isEmpty() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return items.isEmpty();
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /** Return the number of elements in the queue. */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return items.size();
+       // throw new UnsupportedOperationException("Not implemented yet");
     }
 
     // -------------------------------------------------------------------------
@@ -100,7 +113,8 @@ public class MyQueue {
          */
         public void submitTask(String task) {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            queue.enqueue(task);
+           // throw new UnsupportedOperationException("Not implemented yet");
         }
 
         /**
@@ -114,7 +128,13 @@ public class MyQueue {
          */
         public String processNext() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            Object taskObj = queue.dequeue();
+            String task = (String) taskObj;     // Safe cast since we only submit Strings
+            // Record it as processed
+            processed.add(task);
+
+            return task;
+            //throw new UnsupportedOperationException("Not implemented yet");
         }
 
         /**
@@ -124,18 +144,25 @@ public class MyQueue {
          */
         public List<String> processAll() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            List<String> tasksProcessedThisCall = new ArrayList<>();
+            while (!queue.isEmpty()) {
+                String task = processNext();           // Reuses processNext() logic
+                tasksProcessedThisCall.add(task);
+            }
+            return tasksProcessedThisCall;
+           // throw new UnsupportedOperationException("Not implemented yet");
         }
 
         /** Return the number of tasks still waiting to be processed. */
         public int pendingCount() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            return queue.size();
+            //throw new UnsupportedOperationException("Not implemented yet");
         }
 
         /** Return all tasks that have been processed so far, in order. */
         public List<String> getProcessed() {
-            return processed;
+             return new ArrayList<>(processed);
         }
     }
 }
