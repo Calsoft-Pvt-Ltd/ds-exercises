@@ -1,7 +1,5 @@
 package exercises;
-
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Exercise: Trie (Prefix Tree)
@@ -35,6 +33,8 @@ public class Trie {
     public static class TrieNode {
         // TODO: declare fields (Map<Character, TrieNode> children, boolean isEndOfWord)
         // TODO: implement constructor
+        HashMap<Character,TrieNode> children= new HashMap<>();
+        boolean isEndOfWord= false;
     }
 
     private TrieNode root;
@@ -45,7 +45,7 @@ public class Trie {
      */
     public Trie() {
         // TODO: initialize root
-        throw new UnsupportedOperationException("Not implemented yet");
+        root = new TrieNode();
     }
 
     /**
@@ -56,7 +56,12 @@ public class Trie {
      */
     public void insert(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            curr.children.putIfAbsent(c, new TrieNode());
+            curr = curr.children.get(c);
+        }
+        curr.isEndOfWord = true;
     }
 
     /**
@@ -70,7 +75,14 @@ public class Trie {
      */
     public boolean search(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode curr = root;
+        for (char c : word.toCharArray()) {
+            if (!curr.children.containsKey(c)) {
+                return false;
+            }
+            curr = curr.children.get(c);
+        }
+        return curr.isEndOfWord;
     }
 
     /**
@@ -82,6 +94,11 @@ public class Trie {
      */
     public boolean startsWith(String prefix) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode curr = root;
+        for (char c : prefix.toCharArray()) {
+            if (!curr.children.containsKey(c)) return false;
+            curr = curr.children.get(c);
+        }
+        return true;
     }
 }

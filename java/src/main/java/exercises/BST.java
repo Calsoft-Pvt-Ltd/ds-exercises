@@ -2,7 +2,6 @@ package exercises;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Exercise: Binary Search Tree (BST)
  * =====================================
@@ -33,7 +32,14 @@ public class BST {
      */
     public static class BSTNode {
         // TODO: declare fields (int value, BSTNode left, BSTNode right)
+        
+        int value;
+        BSTNode left, right;
         // TODO: implement constructor
+        BSTNode(int vl) {
+            this.value=vl;
+            left=right=null;
+        }
     }
 
     private BSTNode root;
@@ -44,7 +50,7 @@ public class BST {
      */
     public BST() {
         // TODO: initialize root to null
-        throw new UnsupportedOperationException("Not implemented yet");
+        root=null;
     }
 
     /**
@@ -53,7 +59,18 @@ public class BST {
      */
     public void insert(int value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        root= insertNode(root,value);
+    }
+
+    private BSTNode insertNode(BSTNode root, int value) {
+        if(root==null) return new BSTNode(value);
+        if(root.value>value) {
+            root.left=insertNode(root.left,value);
+        }
+        else if(root.value<value) {
+            root.right=insertNode(root.right,value);
+        }
+        return root;
     }
 
     /**
@@ -64,7 +81,14 @@ public class BST {
      */
     public boolean search(int value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return searchNode(root,value);
+    }
+
+    private boolean searchNode(BSTNode root, int value) {
+        if(root==null) return false;
+        if(root.value==value) return true;
+        if(root.value>value) return searchNode(root.left,value);
+        return searchNode(root.right,value);
     }
 
     /**
@@ -81,7 +105,30 @@ public class BST {
      */
     public boolean remove(int value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!search(value)) return false;
+        root = removeNode(root, value);
+        return true;
+    }
+
+    private BSTNode removeNode(BSTNode node, int value) {
+        if (node == null) return null;
+        if (value < node.value) {
+            node.left = removeNode(node.left, value);
+        }
+        else if (value > node.value) {
+            node.right = removeNode(node.right, value);
+        }
+        else {
+            if (node.left == null) return node.right;
+            if (node.right == null) return node.left;
+            BSTNode root = node.right;
+            while (root.left != null) {
+                root = root.left;
+            }
+            node.value = root.value;
+            node.right = removeNode(node.right, root.value);
+        }
+        return node;
     }
 
     /**
@@ -90,6 +137,15 @@ public class BST {
      */
     public List<Integer> inorder() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<Integer> result = new ArrayList<>();
+        inorderTraversal(root, result);
+        return result;
+    }
+
+    private void inorderTraversal(BSTNode node, List<Integer> result) {
+        if (node == null) return;
+        inorderTraversal(node.left, result);
+        result.add(node.value);
+        inorderTraversal(node.right, result);
     }
 }

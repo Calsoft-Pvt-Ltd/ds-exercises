@@ -36,7 +36,8 @@ public class MyLinkedList {
      */
     public MyLinkedList() {
         // TODO: initialize head and size
-        throw new UnsupportedOperationException("Not implemented yet");
+        head = null;
+        size = 0;
     }
 
     /**
@@ -49,7 +50,19 @@ public class MyLinkedList {
      */
     public void append(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+
+        Node node= new Node(value);
+        if(head==null){
+            head=node;
+        }
+        else {
+            Node curr= head;
+            while(curr.next!=null) {
+                curr= curr.next;
+            }
+            curr.next=node;
+        }
+        size++;
     }
 
     /**
@@ -60,7 +73,10 @@ public class MyLinkedList {
      */
     public void prepend(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node node= new Node(value);
+        node.next=head;
+        head=node;
+        size++;
     }
 
     /**
@@ -77,7 +93,22 @@ public class MyLinkedList {
      */
     public boolean delete(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if(head==null) return false;
+        if(head.value.equals(value)) {
+            head=head.next;
+            size--;
+            return true;
+        }
+        Node curr = head;
+        while (curr.next != null) {
+            if (curr.next.value.equals(value)) { 
+                curr.next = curr.next.next; 
+                size--; 
+                return true;
+            }
+            curr = curr.next;
+        }
+        return false;
     }
 
     /**
@@ -85,7 +116,12 @@ public class MyLinkedList {
      */
     public boolean find(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node curr=head;
+        while(curr!=null) {
+            if(curr.value.equals(value)) return true;
+            curr=curr.next;
+        }
+        return false;
     }
 
     /**
@@ -98,7 +134,14 @@ public class MyLinkedList {
      */
     public void reverse() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node curr= head, prev=null, nextt;
+        while(curr!=null) {
+            nextt=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=nextt;
+        }
+        head=prev;
     }
 
     /**
@@ -107,24 +150,30 @@ public class MyLinkedList {
      */
     public List<Object> toList() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<Object> ls= new ArrayList<>();
+        Node curr=head;
+        while(curr!=null) {
+            ls.add(curr.value);
+            curr=curr.next;
+        }
+        return ls;
     }
 
     /** Return the number of nodes in the list. */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Node current = head;
-        while (current != null) {
-            sb.append(current.value).append(" -> ");
-            current = current.next;
+        StringBuilder sb= new StringBuilder();
+        Node curr= head;
+        while(curr!=null) {
+            sb.append(curr.value);
+            sb.append("->");
+            curr= curr.next;
         }
-        sb.append("null");
         return sb.toString();
     }
 }
