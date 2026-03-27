@@ -1,25 +1,39 @@
 #include "stack.h"
 #include <sstream>
+#include <stdexcept>
+
+// ── Stack ───────────────────────────────────────────────────────────────────
 
 Stack::Stack() {}
 
 void Stack::push(int value) {
     // TODO: implement this
     // Add value to the end of items_ (the "top" of the stack)
+    items_.push_back(value);
 }
 
 int Stack::pop() {
     // TODO: implement this
     // 1. If isEmpty(), throw std::underflow_error("pop from empty stack")
+    if (isEmpty()) {
+        throw std::underflow_error("pop from empty stack");
+    }
+
     // 2. Save the back element, remove it from items_ with pop_back(), return it
-    return 0; // placeholder
+    int val = items_.back();
+    items_.pop_back();
+    return val;
 }
 
 int Stack::peek() const {
     // TODO: implement this
     // 1. If isEmpty(), throw std::underflow_error("peek from empty stack")
+    if (isEmpty()) {
+        throw std::underflow_error("peek from empty stack");
+    }
+
     // 2. Return items_.back() without modifying the stack
-    return 0; // placeholder
+    return items_.back();
 }
 
 bool Stack::isEmpty() const {
@@ -40,7 +54,25 @@ bool Stack::isBalanced(const std::string& s) {
     //     - Otherwise pop the top
     //   Non-bracket characters are ignored
     // After the loop, return true only if the stack is empty (all opens were closed)
-    return false; // placeholder
+
+    Stack local;
+    for (char c : s) {
+        if (c == '(' || c == '[' || c == '{') {
+            local.push(c);
+        } else if (c == ')' || c == ']' || c == '}') {
+            if (local.isEmpty()) return false;
+
+            char open = static_cast<char>(local.peek());
+            if ((c == ')' && open != '(') ||
+                (c == ']' && open != '[') ||
+                (c == '}' && open != '{')) {
+                return false;
+            }
+            local.pop();
+        }
+    }
+
+    return local.isEmpty();
 }
 
 std::string Stack::toString() const {
