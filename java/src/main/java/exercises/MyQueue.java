@@ -3,6 +3,7 @@ package exercises;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Exercise 4: Queue (FIFO) + Task Processor
@@ -21,6 +22,7 @@ import java.util.List;
 public class MyQueue {
 
     private final ArrayDeque<Object> items;
+    int size = 0;
 
     /**
      * Initialize an empty queue.
@@ -30,14 +32,14 @@ public class MyQueue {
      * A plain ArrayList would give O(n) for dequeue — think about why.
      */
     public MyQueue() {
-        // TODO: initialize items
-        throw new UnsupportedOperationException("Not implemented yet");
+        items = new ArrayDeque<>();
+        size = 0;
     }
 
     /** Add {@code value} to the BACK of the queue. */
     public void enqueue(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        items.add(value);
+        size++;
     }
 
     /**
@@ -47,7 +49,11 @@ public class MyQueue {
      */
     public Object dequeue() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (items.isEmpty()) {
+           throw new NoSuchElementException("Queue is empty");
+        }
+        size--;
+        return items.remove();
     }
 
     /**
@@ -57,19 +63,22 @@ public class MyQueue {
      */
     public Object peek() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (items.isEmpty()) {
+            throw new NoSuchElementException("Queue is empty"); // FIX: peek() returns null on empty
+        }
+        return items.peek();
     }
 
     /** Return {@code true} if the queue has no elements. */
     public boolean isEmpty() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+       return items.isEmpty();
     }
 
     /** Return the number of elements in the queue. */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
     }
 
     // -------------------------------------------------------------------------
@@ -99,8 +108,7 @@ public class MyQueue {
          * Add it to the back of the queue.
          */
         public void submitTask(String task) {
-            // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+            queue.enqueue(task);
         }
 
         /**
@@ -110,12 +118,14 @@ public class MyQueue {
          * - Add it to the processed list.
          * - Return the task string.
          *
-         * @throws java.util.NoSuchElementException if there are no pending tasks
+         * 
          */
         public String processNext() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
-        }
+            String str = (String) queue.dequeue();
+            processed.add(str);
+            return str;
+        } 
 
         /**
          * Process ALL remaining tasks in order.
@@ -124,13 +134,17 @@ public class MyQueue {
          */
         public List<String> processAll() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+             List<String>  str = new ArrayList<>();
+             while(!queue.isEmpty()){
+                str.add(processNext());
+             }
+             return str;
         }
 
         /** Return the number of tasks still waiting to be processed. */
         public int pendingCount() {
             // TODO: implement this
-            throw new UnsupportedOperationException("Not implemented yet");
+           return queue.size();
         }
 
         /** Return all tasks that have been processed so far, in order. */

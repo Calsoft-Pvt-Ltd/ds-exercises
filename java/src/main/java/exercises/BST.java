@@ -32,8 +32,14 @@ public class BST {
      * initializes left and right to null.
      */
     public static class BSTNode {
-        // TODO: declare fields (int value, BSTNode left, BSTNode right)
-        // TODO: implement constructor
+        int value;
+        BSTNode left;
+        BSTNode right;
+
+        public BSTNode(int value){
+            this.value = value;
+        }
+
     }
 
     private BSTNode root;
@@ -43,8 +49,7 @@ public class BST {
      * Start here — this is the first method to implement.
      */
     public BST() {
-        // TODO: initialize root to null
-        throw new UnsupportedOperationException("Not implemented yet");
+      this.root = null;
     }
 
     /**
@@ -52,8 +57,17 @@ public class BST {
      * If value already exists, do nothing (no duplicates).
      */
     public void insert(int value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+         root = insertRecursive(root, value);
+    }
+
+    private BSTNode insertRecursive(BSTNode node, int value){
+        if(node == null) return new  BSTNode(value);
+
+        if(node.value > value) node.left = insertRecursive(node.left, value);
+
+        else if (node.value < value) node.right = insertRecursive(node.right, value);
+
+        return node;
     }
 
     /**
@@ -63,8 +77,14 @@ public class BST {
      * discard half the remaining tree rather than scanning every node?
      */
     public boolean search(int value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        BSTNode node = root;
+
+        while (node != null) {
+            if(value == node.value) return true;
+            else if (value < node.value) node = node.left;
+            else node = node.right;
+        }
+        return false;
     }
 
     /**
@@ -80,8 +100,39 @@ public class BST {
      * Think about: why does the in-order successor preserve the BST property?
      */
     public boolean remove(int value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (!search(value)) {
+        return false;
+    }
+
+    root = removeRecu(root, value);
+    return true;
+    }
+
+    private BSTNode removeRecu(BSTNode node, int val){
+        if(node == null) return null;
+
+        if(node.value > val) node.left = removeRecu(node.left, val);
+        else if (node.value < val) node.right = removeRecu( node.right, val);
+        else{
+            if(node.left == null && node.right == null)return null;
+            else if (node.left == null || node.right == null){
+                if (node.left == null) return node.right;
+                else return node.left;
+            }
+             
+            int smallestValue = findMin(node.right);
+            node.value = smallestValue;
+            node.right = removeRecu(node.right, smallestValue);
+        }
+
+        return node;
+    }
+ 
+    private int findMin(BSTNode node){
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node.value;
     }
 
     /**
@@ -89,7 +140,16 @@ public class BST {
      * In-order traversal: left subtree → current node → right subtree.
      */
     public List<Integer> inorder() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+       List<Integer> ans  = new ArrayList<>();
+       inorderRecu(root, ans);
+       return ans;
+    }
+
+    private void inorderRecu(BSTNode node, List<Integer> ans){
+        if(node == null) return;
+
+        inorderRecu(node.left, ans);
+        ans.add(node.value);
+        inorderRecu(node.right, ans);
     }
 }

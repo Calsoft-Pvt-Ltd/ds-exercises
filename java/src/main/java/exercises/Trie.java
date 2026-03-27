@@ -33,8 +33,13 @@ public class Trie {
      * Hint: write a no-arg constructor that initializes both fields.
      */
     public static class TrieNode {
-        // TODO: declare fields (Map<Character, TrieNode> children, boolean isEndOfWord)
-        // TODO: implement constructor
+        Map<Character, TrieNode> children;
+        boolean isEndOfWord;
+
+        public TrieNode() {
+            this.children = new HashMap<>();
+            this.isEndOfWord = false;
+        }
     }
 
     private TrieNode root;
@@ -44,8 +49,7 @@ public class Trie {
      * Start here — this is the first method to implement.
      */
     public Trie() {
-        // TODO: initialize root
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.root = new TrieNode();
     }
 
     /**
@@ -55,8 +59,12 @@ public class Trie {
      * After processing all characters, mark the final node's isEndOfWord = true.
      */
     public void insert(String word) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new TrieNode());
+            node = node.children.get(c);
+        }
+        node.isEndOfWord = true;
     }
 
     /**
@@ -69,8 +77,12 @@ public class Trie {
      * check whether the last node exists?
      */
     public boolean search(String word) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+         TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            if (!node.children.containsKey(c)) return false;
+            node = node.children.get(c);
+        }
+        return node.isEndOfWord;
     }
 
     /**
@@ -81,7 +93,11 @@ public class Trie {
      * return true — isEndOfWord doesn't matter here.
      */
     public boolean startsWith(String prefix) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+       TrieNode node = root;
+        for (char c : prefix.toCharArray()) {
+            if (!node.children.containsKey(c)) return false;
+            node = node.children.get(c);
+        }
+        return true;
     }
 }
