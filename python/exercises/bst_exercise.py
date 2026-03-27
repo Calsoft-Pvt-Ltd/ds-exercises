@@ -27,14 +27,17 @@ class BSTNode:
     Hint: the constructor should accept a value argument.
     """
     # TODO: implement __init__
-    pass
+    def __init__(self, value: int):
+        self.value = value
+        self.left = None
+        self.right = None
 
 
 class BST:
     def __init__(self):
         """Initialize an empty BST with no nodes."""
         # TODO: implement this
-        pass
+        self.root = None
 
     def insert(self, value: int) -> None:
         """
@@ -42,7 +45,15 @@ class BST:
         If value already exists, do nothing (no duplicates).
         """
         # TODO: implement this
-        pass
+        def _insert(node, val):
+            if node is None:
+                return BSTNode(val)
+            if val < node.value:
+                node.left = _insert(node.left, val)
+            elif val > node.value:
+                node.right = _insert(node.right, val)
+            return node
+        self.root = _insert(self.root, value)
 
     def search(self, value: int) -> bool:
         """
@@ -52,7 +63,15 @@ class BST:
         discard half the remaining tree rather than scanning every node?
         """
         # TODO: implement this
-        pass
+        def _search(node, val):
+            if node is None:
+                return False
+            if val == node.value:
+                return True
+            if val < node.value:
+                return _search(node.left, val)
+            return _search(node.right, val)
+        return _search(self.root, value)
 
     def remove(self, value: int) -> bool:
         """
@@ -68,7 +87,28 @@ class BST:
         Think about: why does the in-order successor preserve the BST property?
         """
         # TODO: implement this
-        pass
+        def _remove(node, val):
+            if node is None:
+                return node, False
+            if val < node.value:
+                node.left, removed = _remove(node.left, val)
+            elif val > node.value:
+                node.right, removed = _remove(node.right, val)
+            else:
+                removed = True
+                if node.left is None:
+                    return node.right, removed
+                if node.right is None:
+                    return node.left, removed
+                # two children: find in-order successor (min of right subtree)
+                successor = node.right
+                while successor.left:
+                    successor = successor.left
+                node.value = successor.value
+                node.right, _ = _remove(node.right, successor.value)
+            return node, removed
+        self.root, removed = _remove(self.root, value)
+        return removed
 
     def inorder(self) -> list:
         """
@@ -76,4 +116,12 @@ class BST:
         In-order traversal visits: left subtree → current node → right subtree.
         """
         # TODO: implement this
-        pass
+        result = []
+        def _inorder(node):
+            if node is None:
+                return
+            _inorder(node.left)
+            result.append(node.value)
+            _inorder(node.right)
+        _inorder(self.root)
+        return result
