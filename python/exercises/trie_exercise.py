@@ -26,6 +26,9 @@ class TrieNode:
                         Default: False
     """
     # TODO: implement __init__
+    def __init__(self):
+        self.children = {}        # char -> TrieNode
+        self.is_end_of_word = False
     pass
 
 
@@ -36,6 +39,7 @@ class Trie:
         The root does not represent any character.
         """
         # TODO: implement this
+        self.root = TrieNode()
         pass
 
     def insert(self, word: str) -> None:
@@ -47,6 +51,12 @@ class Trie:
         is_end_of_word = True.
         """
         # TODO: implement this
+        curr = self.root
+        for ch in word:
+            if ch not in curr.children:
+                curr.children[ch] = TrieNode()
+            curr = curr.children[ch]
+        curr.is_end_of_word = True
         pass
 
     def search(self, word: str) -> bool:
@@ -60,6 +70,12 @@ class Trie:
         you just check whether the last node exists?
         """
         # TODO: implement this
+        curr = self.root
+        for ch in word:
+            if ch not in curr.children:
+                return False
+            curr = curr.children[ch]
+        return curr.is_end_of_word
         pass
 
     def starts_with(self, prefix: str) -> bool:
@@ -71,4 +87,10 @@ class Trie:
         without getting stuck, return True — is_end_of_word doesn't matter here.
         """
         # TODO: implement this
+        curr = self.root
+        for ch in prefix:
+            if ch not in curr.children:
+                return False
+            curr = curr.children[ch]
+        return True
         pass
