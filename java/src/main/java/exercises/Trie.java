@@ -34,7 +34,14 @@ public class Trie {
      */
     public static class TrieNode {
         // TODO: declare fields (Map<Character, TrieNode> children, boolean isEndOfWord)
+        Map<Character, TrieNode> children;
+        boolean isEndOfWord;
+
         // TODO: implement constructor
+        public TrieNode() {
+            this.children = new HashMap<>();
+            this.isEndOfWord = false;
+        }
     }
 
     private TrieNode root;
@@ -45,7 +52,7 @@ public class Trie {
      */
     public Trie() {
         // TODO: initialize root
-        throw new UnsupportedOperationException("Not implemented yet");
+        root = new TrieNode();
     }
 
     /**
@@ -56,7 +63,14 @@ public class Trie {
      */
     public void insert(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+
+        for (char ch : word.toCharArray()) {
+            current.children.putIfAbsent(ch, new TrieNode());
+            current = current.children.get(ch);
+        }
+
+        current.isEndOfWord = true;
     }
 
     /**
@@ -70,7 +84,8 @@ public class Trie {
      */
     public boolean search(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode node = traverse(word);
+        return node != null && node.isEndOfWord;
     }
 
     /**
@@ -82,6 +97,20 @@ public class Trie {
      */
     public boolean startsWith(String prefix) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return traverse(prefix) != null;
+    }
+
+    // Helper method to walk the trie
+    private TrieNode traverse(String str) {
+        TrieNode current = root;
+
+        for (char ch : str.toCharArray()) {
+            if (!current.children.containsKey(ch)) {
+                return null;
+            }
+            current = current.children.get(ch);
+        }
+
+        return current;
     }
 }
