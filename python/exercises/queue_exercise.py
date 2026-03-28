@@ -24,12 +24,12 @@ class Queue:
         A plain list would give O(n) for dequeue — think about why.
         """
         # TODO: implement this
-        pass
+        self._items = deque()
 
     def enqueue(self, value) -> None:
         """Add `value` to the BACK of the queue."""
         # TODO: implement this
-        pass
+        self._items.append(value)
 
     def dequeue(self):
         """
@@ -37,7 +37,9 @@ class Queue:
         Raise IndexError with the message "dequeue from empty queue" if empty.
         """
         # TODO: implement this
-        pass
+        if self.is_empty():
+            raise IndexError("dequeue from empty queue")
+        return self._items.popleft()
 
     def peek(self):
         """
@@ -45,17 +47,19 @@ class Queue:
         Raise IndexError with the message "peek at empty queue" if empty.
         """
         # TODO: implement this
-        pass
-
+        if self.is_empty():
+            raise IndexError("peek at empty queue")
+        return self._items[0]
+    
     def is_empty(self) -> bool:
         """Return True if the queue has no elements."""
         # TODO: implement this
-        pass
+        return len(self._items) == 0
 
     def size(self) -> int:
         """Return the number of elements in the queue."""
         # TODO: implement this
-        pass
+        return len(self._items)
 
 
 class TaskProcessor:
@@ -77,7 +81,7 @@ class TaskProcessor:
         Add it to the back of the queue.
         """
         # TODO: implement this
-        pass
+        self.queue.enqueue(task)
 
     def process_next(self) -> str:
         """
@@ -90,7 +94,11 @@ class TaskProcessor:
         Raise IndexError with the message "no pending tasks" if the queue is empty.
         """
         # TODO: implement this
-        pass
+        if self.queue.is_empty():
+            raise IndexError("no pending tasks")
+        task = self.queue.dequeue()
+        self.processed.append(task)
+        return task
 
     def process_all(self) -> list:
         """
@@ -100,9 +108,14 @@ class TaskProcessor:
         in the order they were processed.
         """
         # TODO: implement this
-        pass
+        processed_now = []
+        while not self.queue.is_empty():
+            task = self.queue.dequeue()
+            self.processed.append(task)
+            processed_now.append(task)
+        return processed_now
 
     def pending_count(self) -> int:
         """Return the number of tasks still waiting to be processed."""
         # TODO: implement this
-        pass
+        return self.queue.size()
