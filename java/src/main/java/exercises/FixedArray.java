@@ -25,7 +25,10 @@ public class FixedArray {
      */
     public FixedArray(int capacity) {
         // TODO: initialize this.data, this.capacity, and this.size
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.capacity = capacity;
+        this.data = new Object[capacity];
+        this.size = 0;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -42,7 +45,21 @@ public class FixedArray {
      */
     public void insert(int index, Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+            if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+
+        if (size == capacity) {
+            throw new IllegalStateException("Array is full");
+        }
+
+        for (int i = size - 1; i >= index; i--) {
+            data[i + 1] = data[i];
+        }
+
+        data[index] = value;
+        size++;
+         //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -54,7 +71,11 @@ public class FixedArray {
      */
     public Object get(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+        return data[index];
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -68,8 +89,16 @@ public class FixedArray {
      */
     public void delete(int index) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
-    }
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        data[size - 1] = null; // avoid memory leak
+        size--;
+            //throw new UnsupportedOperationException("Not implemented yet");
+        }
 
     /**
      * Return the index of the first occurrence of {@code value}.
@@ -79,13 +108,21 @@ public class FixedArray {
      */
     public int find(Object value) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        for (int i = 0; i < size; i++) {
+            if ((data[i] == null && value == null) ||
+                (data[i] != null && data[i].equals(value))) {
+                return i;
+            }
+        }
+        return -1;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /** Return the number of occupied slots (not the capacity). */
     public int size() {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -100,9 +137,29 @@ public class FixedArray {
      */
     public void rotateRight(int k) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (size == 0) return;
+
+        k = k % size;
+        if (k == 0) return;
+
+        // Reverse entire array
+        reverse(0, size - 1);
+        // Reverse first k elements
+        reverse(0, k - 1);
+        // Reverse remaining elements
+        reverse(k, size - 1);
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
+    private void reverse(int left, int right) {
+        while (left < right) {
+            Object temp = data[left];
+            data[left] = data[right];
+            data[right] = temp;
+            left++;
+            right--;
+        }
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("FixedArray(capacity=" + capacity + ", elements=[");
