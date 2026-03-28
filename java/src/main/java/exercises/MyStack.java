@@ -1,5 +1,5 @@
 package exercises;
-
+ 
 /**
  * Exercise 3: Stack (LIFO)
  * =========================
@@ -15,53 +15,53 @@ package exercises;
  * isBalanced() method.
  */
 public class MyStack {
-
+ 
     private final java.util.ArrayList<Object> items;
-
+ 
     /** Initialize an empty stack. */
     public MyStack() {
-        // TODO: initialize items
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.items = new java.util.ArrayList<>();
     }
-
+ 
     /** Add {@code value} to the top of the stack. */
     public void push(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        items.add(value);
     }
-
+ 
     /**
      * Remove and return the top value.
      *
      * @throws java.util.EmptyStackException if the stack is empty
      */
     public Object pop() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (items.isEmpty()) {
+            throw new java.util.EmptyStackException();
+        }
+        return items.remove(items.size() - 1);
     }
-
+ 
     /**
      * Return the top value WITHOUT removing it.
      *
      * @throws java.util.EmptyStackException if the stack is empty
      */
     public Object peek() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (items.isEmpty()) {
+            throw new java.util.EmptyStackException();
+        }
+        return items.get(items.size() - 1);
     }
-
+ 
     /** Return {@code true} if the stack has no elements. */
     public boolean isEmpty() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return items.isEmpty();
     }
-
+ 
     /** Return the number of elements in the stack. */
     public int size() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return items.size();
     }
-
+ 
     /**
      * Use a MyStack to determine whether the bracket/paren/brace characters
      * in {@code s} are balanced.
@@ -86,7 +86,33 @@ public class MyStack {
      *   - At the end, the stack should be empty.
      */
     public static boolean isBalanced(String s) {
-        // TODO: implement this using MyStack
-        throw new UnsupportedOperationException("Not implemented yet");
+        MyStack stack = new MyStack();
+ 
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+ 
+            if (ch == '(' || ch == '[' || ch == '{') {
+                stack.push(ch);
+            } else if (ch == ')' || ch == ']' || ch == '}') {
+ 
+                if (stack.isEmpty()) {
+                    return false;
+                }
+ 
+                char top = (char) stack.pop();
+ 
+                if (!isMatchingPair(top, ch)) {
+                    return false;
+                }
+            }
+        }
+ 
+        return stack.isEmpty();
+    }
+ 
+    private static boolean isMatchingPair(char open, char close) {
+        return (open == '(' && close == ')') ||
+               (open == '[' && close == ']') ||
+               (open == '{' && close == '}');
     }
 }

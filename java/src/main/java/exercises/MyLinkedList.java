@@ -1,8 +1,8 @@
 package exercises;
-
+ 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 /**
  * Exercise 2: Singly Linked List
  * ================================
@@ -16,29 +16,29 @@ import java.util.List;
  * Your task: implement all methods marked with TODO.
  */
 public class MyLinkedList {
-
+ 
     /** A single node in the linked list. */
     public static class Node {
         public Object value;
         public Node next;
-
+ 
         public Node(Object value) {
             this.value = value;
             this.next = null;
         }
     }
-
+ 
     private Node head;
     private int size;
-
+ 
     /**
      * Initialize an empty linked list.
      */
     public MyLinkedList() {
-        // TODO: initialize head and size
-        throw new UnsupportedOperationException("Not implemented yet");
+        this.head = null;
+        this.size = 0;
     }
-
+ 
     /**
      * Add a new node with {@code value} at the END of the list.
      *
@@ -48,10 +48,21 @@ public class MyLinkedList {
      * Think about: why is this O(n) unless you maintain a tail pointer?
      */
     public void append(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node newNode = new Node(value);
+ 
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+ 
+        size++;
     }
-
+ 
     /**
      * Add a new node with {@code value} at the BEGINNING of the list.
      *
@@ -59,10 +70,12 @@ public class MyLinkedList {
      * Think about: why can't an array do this in O(1)?
      */
     public void prepend(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node newNode = new Node(value);
+        newNode.next = head;
+        head = newNode;
+        size++;
     }
-
+ 
     /**
      * Delete the FIRST node whose value equals {@code value}.
      *
@@ -76,18 +89,46 @@ public class MyLinkedList {
      * Think about: why do you need a reference to the PREVIOUS node?
      */
     public boolean delete(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (head == null) {
+            return false;
+        }
+ 
+        if (value == null ? head.value == null : value.equals(head.value)) {
+            head = head.next;
+            size--;
+            return true;
+        }
+ 
+        Node previous = head;
+        Node current = head.next;
+ 
+        while (current != null) {
+            if (value == null ? current.value == null : value.equals(current.value)) {
+                previous.next = current.next;
+                size--;
+                return true;
+            }
+            previous = current;
+            current = current.next;
+        }
+ 
+        return false;
     }
-
+ 
     /**
      * Return {@code true} if {@code value} exists in the list, {@code false} otherwise.
      */
     public boolean find(Object value) {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node current = head;
+        while (current != null) {
+            if (value == null ? current.value == null : value.equals(current.value)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
     }
-
+ 
     /**
      * Reverse the list IN-PLACE by re-wiring the .next references.
      *
@@ -97,25 +138,40 @@ public class MyLinkedList {
      * Hint: you need to track three references simultaneously — prev, current, next.
      */
     public void reverse() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        Node prev = null;
+        Node current = head;
+ 
+        while (current != null) {
+            Node next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+ 
+        head = prev;
     }
-
+ 
     /**
      * Return all values as a List in order from head to tail.
      * Useful for testing and printing.
      */
     public List<Object> toList() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<Object> result = new ArrayList<>();
+        Node current = head;
+ 
+        while (current != null) {
+            result.add(current.value);
+            current = current.next;
+        }
+ 
+        return result;
     }
-
+ 
     /** Return the number of nodes in the list. */
     public int size() {
-        // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        return size;
     }
-
+ 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
