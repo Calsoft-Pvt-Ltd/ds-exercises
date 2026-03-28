@@ -6,14 +6,27 @@
 Queue::Queue() {}
 
 void Queue::enqueue(int value) {
-    // TODO: implement this
-    // Add value to the back of items_ using push_back()
+
+items_.push_back(value);
+    
 }
 
 int Queue::dequeue() {
     // TODO: implement this
     // 1. If isEmpty(), throw std::underflow_error("dequeue from empty queue")
     // 2. Save items_.front(), call items_.pop_front() to remove it, return the saved value
+    if (isEmpty()) {
+        throw std::underflow_error("dequeue from empty queue");
+    }
+
+
+    int value = items_.front();
+
+
+    items_.pop_front();
+
+
+    return value;
     return 0; // placeholder
 }
 
@@ -21,6 +34,12 @@ int Queue::peek() const {
     // TODO: implement this
     // 1. If isEmpty(), throw std::underflow_error("peek from empty queue")
     // 2. Return items_.front() without removing it
+    if (isEmpty()) {
+        throw std::underflow_error("peek from empty queue");
+    }
+
+    // 2. Return front
+    return items_.front();
     return 0; // placeholder
 }
 
@@ -52,6 +71,7 @@ TaskProcessor::TaskProcessor() {}
 void TaskProcessor::submitTask(const std::string& task) {
     // TODO: implement this
     // Add task to the back of pending_ using push_back()
+    pending_.push_back(task);
 }
 
 std::string TaskProcessor::processNext() {
@@ -60,12 +80,29 @@ std::string TaskProcessor::processNext() {
     // 2. Save pending_.front(), call pending_.pop_front() to remove it
     // 3. Add the saved task to processed_ using push_back()
     // 4. Return the saved task
-    return ""; // placeholder
+
+    if (pending_.empty()) {
+        throw std::runtime_error("no pending tasks");
+    }
+
+    std::string task = pending_.front();
+
+    pending_.pop_front();
+
+    processed_.push_back(task);
+
+    return task;
+
+    return "";
 }
 
 void TaskProcessor::processAll() {
     // TODO: implement this
     // Call processNext() in a loop until pendingCount() == 0
+
+    while (pendingCount() > 0) {
+        processNext();
+    }
 }
 
 int TaskProcessor::pendingCount() const {
