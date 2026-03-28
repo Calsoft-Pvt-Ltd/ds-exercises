@@ -16,39 +16,37 @@ Your task: implement all methods marked with TODO.
 class Stack:
     def __init__(self):
         """Initialize an empty stack."""
-        # TODO: implement this
-        pass
+        self._items = []
 
     def push(self, value) -> None:
         """Add `value` to the top of the stack."""
-        # TODO: implement this
-        pass
+        self._items.append(value)
 
     def pop(self):
         """
         Remove and return the top value.
         Raise IndexError with the message "pop from empty stack" if empty.
         """
-        # TODO: implement this
-        pass
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._items.pop()
 
     def peek(self):
         """
         Return the top value WITHOUT removing it.
         Raise IndexError with the message "peek at empty stack" if empty.
         """
-        # TODO: implement this
-        pass
+        if self.is_empty():
+            raise IndexError("peek at empty stack")
+        return self._items[-1]
 
     def is_empty(self) -> bool:
         """Return True if the stack has no elements."""
-        # TODO: implement this
-        pass
+        return len(self._items) == 0
 
     def size(self) -> int:
         """Return the number of elements in the stack."""
-        # TODO: implement this
-        pass
+        return len(self._items)
 
 
 def is_balanced(s: str) -> bool:
@@ -74,5 +72,21 @@ def is_balanced(s: str) -> bool:
       - When you see a closing bracket, check that it matches the top of the stack.
       - At the end, the stack should be empty.
     """
-    # TODO: implement this using the Stack class above
-    pass
+    stack = Stack()
+
+    pairs = {
+        ')': '(',
+        ']': '[',
+        '}': '{'
+    }
+
+    for char in s:
+        if char in "([{":
+            stack.push(char)
+        elif char in ")]}":
+            if stack.is_empty():
+                return False
+            if stack.pop() != pairs[char]:
+                return False
+
+    return stack.is_empty()
