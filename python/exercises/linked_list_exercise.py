@@ -25,6 +25,9 @@ class LinkedList:
         Keep track of the head node and the size.
         """
         # TODO: implement this
+        self.head = None
+        self._size = 0
+
         pass
 
     def append(self, value) -> None:
@@ -37,7 +40,18 @@ class LinkedList:
         Think about: why is this O(n) unless you maintain a tail pointer?
         """
         # TODO: implement this
-        pass
+
+        new_node = Node(value)
+        if not self.head:
+            self.head = new_node
+        else:
+            curr = self.head
+            while curr.next:
+                curr = curr.next
+            curr.next = new_node
+        
+        self._size+=1
+        
 
     def prepend(self, value) -> None:
         """
@@ -47,7 +61,11 @@ class LinkedList:
         Think about: why can't an array do this in O(1)?
         """
         # TODO: implement this
-        pass
+        new_node = Node(value)
+        new_node.next = self.head
+        self.head = new_node
+        self._size+=1
+        
 
     def delete(self, value) -> bool:
         """
@@ -63,11 +81,41 @@ class LinkedList:
         Think about: why do you need a reference to the PREVIOUS node?
         """
         # TODO: implement this
-        pass
+        if not self.head:
+            return False
+        
+        # case 1 when you have to delete head
+        if self.head.value == value:
+            self.head = self.head.next
+            self._size-=1
+            return True
+        
+        # case 2 delete somewhere in the middle
+        prev = self.head
+        curr =  self.head.next
+
+        while curr:
+            if curr.value == value:
+                prev.next = curr.next
+                self._size -=1
+                return True
+            
+            prev = curr
+            curr = curr.next
+
+        return False
 
     def find(self, value) -> bool:
         """Return True if `value` exists in the list, False otherwise."""
         # TODO: implement this
+
+        curr = self.head
+        while curr:
+            if curr.value == value:
+                return True
+            curr = curr.next
+            
+        return False
         pass
 
     def reverse(self) -> None:
@@ -80,6 +128,16 @@ class LinkedList:
         Hint: you need to track three pointers simultaneously — prev, current, next.
         """
         # TODO: implement this
+        prev = None
+        curr = self.head
+
+        while curr:
+            next_node = curr.next  # save next before overwriting
+            curr.next = prev       # reverse the pointer
+            prev = curr            # move prev forward
+            curr = next_node       # move curr forward
+
+        self.head = prev
         pass
 
     def to_list(self) -> list:
@@ -88,11 +146,18 @@ class LinkedList:
         Useful for testing and printing.
         """
         # TODO: implement this
+        result = []
+        curr = self.head
+        while curr:
+            result.append(curr.value)
+            curr = curr.next
+        return result
         pass
 
     def size(self) -> int:
         """Return the number of nodes in the list."""
         # TODO: implement this
+        return self._size
         pass
 
     def __repr__(self) -> str:
