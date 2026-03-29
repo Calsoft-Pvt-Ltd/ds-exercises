@@ -35,6 +35,13 @@ public class Trie {
     public static class TrieNode {
         // TODO: declare fields (Map<Character, TrieNode> children, boolean isEndOfWord)
         // TODO: implement constructor
+        Map<Character, TrieNode> children;
+        boolean isEndOfWord;
+
+        public TrieNode() {
+            children = new HashMap<>();
+            isEndOfWord = false;
+        }
     }
 
     private TrieNode root;
@@ -45,7 +52,8 @@ public class Trie {
      */
     public Trie() {
         // TODO: initialize root
-        throw new UnsupportedOperationException("Not implemented yet");
+        root = new TrieNode();
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -56,7 +64,13 @@ public class Trie {
      */
     public void insert(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+        for (char c : word.toCharArray()) {
+            current.children.putIfAbsent(c, new TrieNode());
+            current = current.children.get(c);
+        }
+        current.isEndOfWord = true;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -70,7 +84,17 @@ public class Trie {
      */
     public boolean search(String word) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+
+        for (char c : word.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                return false;
+            }
+            current = current.children.get(c);
+        }
+
+        return current.isEndOfWord;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**
@@ -82,6 +106,16 @@ public class Trie {
      */
     public boolean startsWith(String prefix) {
         // TODO: implement this
-        throw new UnsupportedOperationException("Not implemented yet");
+        TrieNode current = root;
+
+        for (char c : prefix.toCharArray()) {
+            if (!current.children.containsKey(c)) {
+                return false;
+            }
+            current = current.children.get(c);
+        }
+
+        return true;
+        //throw new UnsupportedOperationException("Not implemented yet");
     }
 }
