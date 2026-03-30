@@ -17,11 +17,13 @@ class Stack:
     def __init__(self):
         """Initialize an empty stack."""
         # TODO: implement this
+        self._data = []
         pass
 
     def push(self, value) -> None:
         """Add `value` to the top of the stack."""
         # TODO: implement this
+        self._data.append(value)
         pass
 
     def pop(self):
@@ -30,6 +32,9 @@ class Stack:
         Raise IndexError with the message "pop from empty stack" if empty.
         """
         # TODO: implement this
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._data.pop()
         pass
 
     def peek(self):
@@ -38,16 +43,21 @@ class Stack:
         Raise IndexError with the message "peek at empty stack" if empty.
         """
         # TODO: implement this
+        if self.is_empty():
+            raise IndexError("peek at empty stack")
+        return self._data[-1]
         pass
 
     def is_empty(self) -> bool:
         """Return True if the stack has no elements."""
         # TODO: implement this
+        return len(self._data) == 0
         pass
 
     def size(self) -> int:
         """Return the number of elements in the stack."""
         # TODO: implement this
+        return len(self._data)
         pass
 
 
@@ -75,4 +85,22 @@ def is_balanced(s: str) -> bool:
       - At the end, the stack should be empty.
     """
     # TODO: implement this using the Stack class above
+    stack = Stack()
+    matching = {')': '(', ']': '[', '}': '{'}
+    opening  = set(matching.values())   # { '(', '[', '{' }
+    closing  = set(matching.keys())     # { ')', ']', '}' }
+
+    for ch in s:
+        if ch in opening:
+            stack.push(ch)
+        elif ch in closing:
+            # A closing bracket with nothing to match against
+            if stack.is_empty():
+                return False
+            # Top of stack must be the corresponding opener
+            if stack.pop() != matching[ch]:
+                return False
+
+    # Any unclosed openers still on the stack → unbalanced
+    return stack.is_empty()
     pass
