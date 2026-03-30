@@ -45,3 +45,15 @@ jobs:
     - name: Test with Maven
       run: |
         cd java && mvn test
+
+  cpp:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure
+      run: cmake -S cpp -B cpp/build -DCMAKE_BUILD_TYPE=Debug
+    - name: Build
+      run: cmake --build cpp/build --parallel
+    - name: Test
+      run: ctest --test-dir cpp/build --output-on-failure
