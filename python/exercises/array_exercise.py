@@ -133,3 +133,4 @@ class FixedArray:
     def __repr__(self):
         occupied = self._data[:self._size]
         return f"FixedArray(capacity={self.capacity}, elements={occupied})"
+    # task done
